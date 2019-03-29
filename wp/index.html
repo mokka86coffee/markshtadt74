@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>3DModernWD Company</title>
+	<link rel="stylesheet" type="text/css" href="css.css">
+</head>
+<body>
+
+<div class="box">
+  <h1> Halloe</h1>
+  <p>$('#email').blur(function() {<br>
+        &nbsp;if($(this).val() != '') {<br>
+        &nbsp;&nbsp;  var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;<br>
+          &nbsp;&nbsp;if(pattern.test($(this).val())){<br>
+            &nbsp;&nbsp;&nbsp;$(this).css({'border' : '1px solid #569b44'});<br>
+            &nbsp;&nbsp;&nbsp;$('#valid').text('Верно');<br>
+          &nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;$(this).css({'border' : '1px solid #ff0000'});<br>
+            &nbsp;&nbsp;&nbsp;$('#valid').text('Не верно');<br>
+          &nbsp;&nbsp;}<br>
+        &nbsp;} else {<br>
+          &nbsp;&nbsp;$(this).css({'border' : '1px solid #ff0000'});<br>
+          &nbsp;&nbsp;$('#valid').text('Поле email не должно быть пустым');<br>
+        &nbsp;}<br>
+      });</p>
+  <button class="btn btn-glass btn-primary">Click here</button>
+</div>
+
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
