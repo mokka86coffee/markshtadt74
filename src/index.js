@@ -153,7 +153,7 @@ function handleTouch (e){
     const { type, touches: [current] } = e;
     
     if ( type === 'touchend' ) {
-        this.posX = 0;
+        this.posX = null;
         return;
     }
 
@@ -231,7 +231,7 @@ window.onload = async () => {
     $('[data-href="news"]').on('click', showPhotos.bind({}, $('.modal--photos-news').node[0]));
     // show/hide restaurant news photos
 
-    const newsPhObj = { index: 0, posX: 0 };
+    const newsPhObj = { index: 0 };
     const newsPhTouchFn = handleTouch.bind(newsPhObj);
     
     const newsPhToggleFn = toggleSlide.bind(newsPhObj, $('.modal--photos-news .modal-photos__slider img').node, 'news');
@@ -248,7 +248,7 @@ window.onload = async () => {
     $('[data-href="offers"]').on('click', showPhotos.bind({}, $('.modal--photos-offers').node[0]));
     // show/hide restaurant offers photos
 
-    const offersPhObj = { index: 0, posX: 0 };
+    const offersPhObj = { index: 0 };
     const offersPhTouchFn = handleTouch.bind(offersPhObj);
     
     const offersPhToggleFn = toggleSlide.bind(offersPhObj, $('.modal--photos-offers .modal-photos__slider img').node, 'offers');
