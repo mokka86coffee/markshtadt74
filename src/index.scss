@@ -22,6 +22,12 @@
     flex-wrap: wrap;
 }
 
+@mixin media($media){
+	@media only screen and (max-width: $media+'px') {
+		@content;
+	}
+}
+
 * {
     font-family: 'Roboto Condensed', sans-serif;
 }
@@ -80,11 +86,22 @@ section {
         display: flex;
         justify-content: flex-start;
         padding-right: 2rem;
+        
+        @include media(800){
+            flex-wrap: wrap;
+            padding: 0;
+        }
 
         & li {
             list-style: none;
+
             &:not(:last-of-type) {
                 padding-right: 2rem;
+            }
+            
+            @include media(800){
+                display: block;
+                width: 100%;
             }
         }
 
@@ -95,6 +112,13 @@ section {
           color: #fff;
           text-decoration: none;
           text-transform: uppercase;
+
+          @include media(800){
+              display: block;
+              width: 100%;
+              padding: 1rem 0;
+              text-align: center;
+          }
         }
     } // navigation
 }
@@ -115,6 +139,11 @@ section {
     &-contacts{
         display: flex;
         align-items: center;
+
+        @include media(800){
+            order: 3;
+        }
+
         &__chip {
             display: flex;
             align-items: center;
@@ -144,6 +173,11 @@ section {
         display: flex;
         justify-content: flex-start;
         align-items: center;
+
+        @include media(800){
+            text-align: center;
+            order: 2;
+        }
 
         &__square {
             height: 80px;
@@ -196,11 +230,19 @@ section {
             font-family: 'Open Sans Condensed', sans-serif;
             font-size: 2rem;
             color: #5d3d29;
+        
+            @include media(800){
+                text-align: center;
+            }
         }
     } // title
 
     &-logo {
         width: 22%;
+
+        @include media(800){
+            order: 1;
+        }
 
         & img {
             height: auto;
