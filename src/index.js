@@ -1,4 +1,4 @@
-// import './index.scss';
+import './index.scss';
 
 function crossBrowserFetch (url, optionObj = { on: 'GET', body: undefined }, JSONparsing = true) {
     return new Promise((resolve, reject) => {
@@ -100,7 +100,15 @@ function renderPhotos(e, parentDiv) {
 
     this.nodes = $('.modal--photos-halls .modal-photos__img').node;
 
-    $('.modal--photos-halls .modal-photos__arrow').node.forEach(n=>n.onclick = toggleSlide.bind(this, this.nodes, 'halls'));
+    const hallsPhObj = this;
+    const hallsPhTouchFn = handleTouch.bind(hallsPhObj);
+    
+    const hallsPhToggleFn = toggleSlide.bind(hallsPhObj, this.nodes, 'halls');
+    hallsPhObj.PhToggleFn = hallsPhToggleFn;
+
+
+    $('.modal--photos-halls .modal-photos__arrow').node.forEach(n=>n.onclick = hallsPhToggleFn);
+    $('.modal--photos-halls').on(['touchstart','touchmove','touchend'], hallsPhTouchFn);
 }
 
 function chngIndex(right, quanity, index) {
@@ -139,14 +147,37 @@ function toggleSlide (slides, name, { target: { classList: { value } } }) {
 }
 
 function handleTouch (e){
-    console.log(e);
+
+    if ( this.posX === 'moving') return;
+
+    const { type, touches: [current] } = e;
+    
+    if ( type === 'touchend' ) {
+        this.posX = 0;
+        return;
+    }
+
+    this.posX = type === 'touchstart' ? current.pageX : this.posX;
+    
+    if ( this.posX > current.pageX ) {
+        this.PhToggleFn({ target: { classList: { value: 'right' } } });
+        this.posX = 'moving';
+        setTimeout( (obj) => obj.posX = 0, 500, this );
+    }
+    else if ( this.posX < current.pageX ) {
+        this.PhToggleFn({ target: { classList: { value: 'left' } } });
+        this.posX = 'moving';
+        setTimeout( (obj) => obj.posX = 0, 500, this );
+    } else return;
+    
 }
 
 let $=( tag, _$={})=>{
     _$ = {
         node: document.querySelectorAll(tag),
-        on: (event,func)=> 
-            Array.from(_$.node).forEach(n=>n.addEventListener(event, func, true) )
+        on: (event,func)=> !Array.isArray(event)
+                ? Array.from(_$.node).forEach(n=>n.addEventListener(event, func, true) )
+                : event.forEach( ev => Array.from(_$.node).forEach(n=>n.addEventListener(ev, func, true) ) )  
             
     }
     return _$;
@@ -197,19 +228,18 @@ window.onload = async () => {
 }
 
 {
-
     $('[data-href="news"]').on('click', showPhotos.bind({}, $('.modal--photos-news').node[0]));
     // show/hide restaurant news photos
 
     const newsPhObj = { index: 0, posX: 0 };
-    const newsPhArrow = $('.modal--photos-news .modal-photos__arrow');
-    const newsPhImgNode = $('.modal--photos-news .modal-photos__slider img').node;
-    const newsPhToggleFn = toggleSlide.bind(newsPhObj, newsPhImgNode, 'news');
+    const newsPhTouchFn = handleTouch.bind(newsPhObj);
+    
+    const newsPhToggleFn = toggleSlide.bind(newsPhObj, $('.modal--photos-news .modal-photos__slider img').node, 'news');
+    newsPhObj.PhToggleFn = newsPhToggleFn;
 
-    newsPhArrow.on('click', newsPhToggleFn);
-    newsPhArrow.on('touchstart', handleTouch);
+    $('.modal--photos-news .modal-photos__arrow').on('click', newsPhToggleFn);
+    $('.modal--photos-news').on(['touchstart','touchmove','touchend'], newsPhTouchFn);
     // toggle slides restaurant news photos
-
 } // restaurant news photos
     
 
@@ -218,12 +248,22 @@ window.onload = async () => {
     $('[data-href="offers"]').on('click', showPhotos.bind({}, $('.modal--photos-offers').node[0]));
     // show/hide restaurant offers photos
 
-    $('.modal--photos-offers .modal-photos__arrow').on('click', toggleSlide.bind({index: 0}, $('.modal--photos-offers .modal-photos__slider img').node, 'news'));
+    const offersPhObj = { index: 0, posX: 0 };
+    const offersPhTouchFn = handleTouch.bind(offersPhObj);
+    
+    const offersPhToggleFn = toggleSlide.bind(offersPhObj, $('.modal--photos-offers .modal-photos__slider img').node, 'offers');
+    offersPhObj.PhToggleFn = offersPhToggleFn;
+    
+
+    $('.modal--photos-offers .modal-photos__arrow').on('click', offersPhToggleFn);
+    $('.modal--photos-offers').on(['touchstart','touchmove','touchend'], offersPhTouchFn);
     // toggle slides restaurant offers photos
 
-    let hallsObj = { index: 0, slides: await ajaxGetData(`halls=${true}`), nodes: $('.modal--photos-halls .modal-photos__img').node };
-    let hallsDiv = $('.modal-photos__slide').node[0];
 } // restaurant offers photos
+
+    const hallsObj = { index: 0, slides: await ajaxGetData(`halls=${true}`), nodes: $('.modal--photos-halls .modal-photos__img').node };
+    const hallsDiv = $('.modal-photos__slide').node[0]; 
+    
     renderPhotos = renderPhotos.bind(hallsObj);
     renderPhotos(null, hallsDiv);
     
@@ -233,3 +273,4 @@ window.onload = async () => {
         } 
     })();
 };
+
