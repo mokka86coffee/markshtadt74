@@ -45,7 +45,6 @@ function createNode(tag, attr, parentNode) {
 
 async function ajaxGetData(str) {
     const result = await crossBrowserFetch(`functions.php?${str}`);
-	console.log("TCL: ajaxGetData -> result", result)
     return result;
 }
 
@@ -67,7 +66,6 @@ async function showMenu(modal, e) {
     menuDivNode.innerHTML = '';
 
     let menuObj = await ajaxGetData(`bluda_id=${path}`);
-    console.dir(menuObj);
     
     for (let key in menuObj) {
         if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
@@ -115,7 +113,7 @@ return right
         : index -1;
 }
 
-let toggleSlide = function (slides, name, { target: { classList: { value } } }) {
+function toggleSlide (slides, name, { target: { classList: { value } } }) {
     
     let 
         slideToRight = ~value.indexOf('right'),
@@ -140,6 +138,10 @@ let toggleSlide = function (slides, name, { target: { classList: { value } } }) 
     this.index = currentIndex;
 }
 
+function handleTouch (e){
+
+}
+
 let $=( tag, _$={})=>{
     _$ = {
         node: document.querySelectorAll(tag),
@@ -152,7 +154,7 @@ let $=( tag, _$={})=>{
 
 window.onload = async () => {
     $('.preloader').node[0].classList.add('hidden');
-
+{
     await (async () => { 
         for (let node of document.getElementsByTagName('img')) { 
             try {
@@ -192,16 +194,25 @@ window.onload = async () => {
     $('[data-text]').method('click', e=>renderPhotos(e,hallsDiv) );
     // toggle restaurant halls photos
 
+}
 
-
+{
 
     $('[data-href="news"]').method('click', showPhotos.bind({}, $('.modal--photos-news').node[0]));
     // show/hide restaurant news photos
 
-    $('.modal--photos-news .modal-photos__arrow').method('click', toggleSlide.bind({index: 0}, $('.modal--photos-news .modal-photos__slider img').node, 'news'));
+    const newsPhObj = { index: 0, posX: 0 };
+    const newsPhNode = $('.modal--photos-news .modal-photos__slider img').node;
+    const newsPhToggleFn = toggleSlide.bind(newsPhObj, newsPhNode, 'news');
+
+    $('.modal--photos-news .modal-photos__arrow').method('click', newsPhToggleFn);
     // toggle slides restaurant news photos
 
+} // restaurant news photos
+    
 
+
+{  
     $('[data-href="offers"]').method('click', showPhotos.bind({}, $('.modal--photos-offers').node[0]));
     // show/hide restaurant offers photos
 
@@ -210,7 +221,7 @@ window.onload = async () => {
 
     let hallsObj = { index: 0, slides: await ajaxGetData(`halls=${true}`), nodes: $('.modal--photos-halls .modal-photos__img').node };
     let hallsDiv = $('.modal-photos__slide').node[0];
-
+} // restaurant offers photos
     renderPhotos = renderPhotos.bind(hallsObj);
     renderPhotos(null, hallsDiv);
     
