@@ -1,4 +1,4 @@
-import './index.scss';
+// import './index.scss';
 
 function crossBrowserFetch (url, optionObj = { on: 'GET', body: undefined }, JSONparsing = true) {
     return new Promise((resolve, reject) => {
@@ -207,6 +207,7 @@ window.onload = async () => {
     const newsPhToggleFn = toggleSlide.bind(newsPhObj, newsPhImgNode, 'news');
 
     newsPhArrow.on('click', newsPhToggleFn);
+    newsPhArrow.on('touchstart', handleTouch);
     // toggle slides restaurant news photos
 
 } // restaurant news photos
