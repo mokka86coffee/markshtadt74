@@ -1,9 +1,9 @@
 import './index.scss';
 
-function crossBrowserFetch (url, optionObj = { method: 'GET', body: undefined }, JSONparsing = true) {
+function crossBrowserFetch (url, optionObj = { on: 'GET', body: undefined }, JSONparsing = true) {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
-        req.open(optionObj.method, url);
+        req.open(optionObj.on, url);
 
         if (optionObj.headers) {
             for (let key in optionObj.headers) {
@@ -139,13 +139,13 @@ function toggleSlide (slides, name, { target: { classList: { value } } }) {
 }
 
 function handleTouch (e){
-
+    console.log(e);
 }
 
 let $=( tag, _$={})=>{
     _$ = {
         node: document.querySelectorAll(tag),
-        method: (event,func)=> 
+        on: (event,func)=> 
             Array.from(_$.node).forEach(n=>n.addEventListener(event, func, true) )
             
     }
@@ -173,39 +173,40 @@ window.onload = async () => {
     })();
     //  Imgs one by one loading
 
-    $('.modal').method('click', (e) => e.target.classList.remove('modal--ready'));
-    $('.modal__close').method('click', (e) => e.target.parentNode.parentNode.classList.remove('modal--ready'));
+    $('.modal').on('click', (e) => e.target.classList.remove('modal--ready'));
+    $('.modal__close').on('click', (e) => e.target.parentNode.parentNode.classList.remove('modal--ready'));
     // modal hide on click
 
-    $('.services__item--about').method('click', showInfo.bind({}, $('.modal--info').node[0]));
+    $('.services__item--about').on('click', showInfo.bind({}, $('.modal--info').node[0]));
     // show/hide restaurant info
 
-    $('[data-href="contacts"]').method('click', showInfo.bind({}, $('.modal--contacts').node[0]));
+    $('[data-href="contacts"]').on('click', showInfo.bind({}, $('.modal--contacts').node[0]));
     // show/hide restaurant contacts
 
-    $('.dishes__item, .footer-nav__column--menu').method('click', showMenu.bind({}, $('.modal--menu').node[0]));
+    $('.dishes__item, .footer-nav__column--menu').on('click', showMenu.bind({}, $('.modal--menu').node[0]));
     // show/hide restaurant menu
 
 
 
-    $('.services__item--gallery, [data-href="gallery"]').method('click', showPhotos.bind({}, $('.modal--photos-halls').node[0]));
+    $('.services__item--gallery, [data-href="gallery"]').on('click', showPhotos.bind({}, $('.modal--photos-halls').node[0]));
     // show/hide restaurant halls photos
     
-    $('[data-text]').method('click', e=>renderPhotos(e,hallsDiv) );
+    $('[data-text]').on('click', e=>renderPhotos(e,hallsDiv) );
     // toggle restaurant halls photos
 
 }
 
 {
 
-    $('[data-href="news"]').method('click', showPhotos.bind({}, $('.modal--photos-news').node[0]));
+    $('[data-href="news"]').on('click', showPhotos.bind({}, $('.modal--photos-news').node[0]));
     // show/hide restaurant news photos
 
     const newsPhObj = { index: 0, posX: 0 };
-    const newsPhNode = $('.modal--photos-news .modal-photos__slider img').node;
-    const newsPhToggleFn = toggleSlide.bind(newsPhObj, newsPhNode, 'news');
+    const newsPhArrow = $('.modal--photos-news .modal-photos__arrow');
+    const newsPhImgNode = $('.modal--photos-news .modal-photos__slider img').node;
+    const newsPhToggleFn = toggleSlide.bind(newsPhObj, newsPhImgNode, 'news');
 
-    $('.modal--photos-news .modal-photos__arrow').method('click', newsPhToggleFn);
+    newsPhArrow.on('click', newsPhToggleFn);
     // toggle slides restaurant news photos
 
 } // restaurant news photos
@@ -213,10 +214,10 @@ window.onload = async () => {
 
 
 {  
-    $('[data-href="offers"]').method('click', showPhotos.bind({}, $('.modal--photos-offers').node[0]));
+    $('[data-href="offers"]').on('click', showPhotos.bind({}, $('.modal--photos-offers').node[0]));
     // show/hide restaurant offers photos
 
-    $('.modal--photos-offers .modal-photos__arrow').method('click', toggleSlide.bind({index: 0}, $('.modal--photos-offers .modal-photos__slider img').node, 'news'));
+    $('.modal--photos-offers .modal-photos__arrow').on('click', toggleSlide.bind({index: 0}, $('.modal--photos-offers .modal-photos__slider img').node, 'news'));
     // toggle slides restaurant offers photos
 
     let hallsObj = { index: 0, slides: await ajaxGetData(`halls=${true}`), nodes: $('.modal--photos-halls .modal-photos__img').node };
