@@ -31,5 +31,11 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production"
-  }
+  },
+  "browserslist": [
+    ">5%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

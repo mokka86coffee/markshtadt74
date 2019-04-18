@@ -1,3 +1,5 @@
+import './index.scss';
+
 function crossBrowserFetch (url, optionObj = { method: 'GET', body: undefined }, JSONparsing = true) {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
@@ -42,17 +44,7 @@ function createNode(tag, attr, parentNode) {
 }
 
 async function ajaxGetData(str) {
-    console.log(crossBrowserFetch('functions.php', {method: 'GET', body: str}));
-    // return JSON.parse( await
-    //     jQuery.ajax({
-    //         method: "POST",
-    //         url: "functions.php",
-    //         data: str
-    //     })
-    //     .done( function( json ) {
-    //         return json;
-    //     }) 
-    // );
+    console.log(await crossBrowserFetch('functions.php', {method: 'GET', body: str}));
 }
 
 function mapMenuObjectToSpans (obj, menuDivNode) {

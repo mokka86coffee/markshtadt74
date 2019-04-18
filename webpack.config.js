@@ -7,7 +7,7 @@ let conf = {
      entry: ['babel-polyfill','./src/index.js'],
      output: {
           path: path.resolve(__dirname, './dist'),
-          filename: 'main.js',
+          filename: 'js.js',
           publicPath: ''
      },
      devServer: {
@@ -67,9 +67,7 @@ let conf = {
                         loader: 'postcss-loader',
                         options: {
                             plugins: [
-                                autoprefixer({
-                                    browsers:['cover 99.5%']
-                                }),
+                                autoprefixer(),
                                 csswring({removeAllComments: true,preserveHacks: true})
                             ],
                             sourceMap: true
