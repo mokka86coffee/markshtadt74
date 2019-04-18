@@ -761,9 +761,10 @@ section {
 
         &__img {
             position: absolute;
-            top: 50%; left: 0;
+            top: 50%; left: 50%;
             transform: translateY(-50%);
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
             height: auto;
             box-sizing: border-box;
             transition: 1s;
@@ -773,7 +774,7 @@ section {
             &--active {
                 opacity: 1;
                 z-index: 2;
-                transform: translateX(0) translateY(-50%);
+                transform: translateX(-50%) translateY(-50%);
                 transition: opacity 1.8s 0s;
             }
 

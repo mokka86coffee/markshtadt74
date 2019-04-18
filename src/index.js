@@ -44,7 +44,9 @@ function createNode(tag, attr, parentNode) {
 }
 
 async function ajaxGetData(str) {
-    console.log(await crossBrowserFetch('functions.php', {method: 'GET', body: str}));
+    const result = await crossBrowserFetch(`functions.php?${str}`);
+	console.log("TCL: ajaxGetData -> result", result)
+    return result;
 }
 
 function mapMenuObjectToSpans (obj, menuDivNode) {
@@ -151,20 +153,22 @@ let $=( tag, _$={})=>{
 window.onload = async () => {
     $('.preloader').node[0].classList.add('hidden');
 
-    await (async function (){ for (let node of document.getElementsByTagName('img')) { 
-        await new Promise(res=>{ 
-            if (!node.dataset.src) { res(); }
-            else {
-                node.src=node.dataset.src; 
-                node.dataset.src=''; 
-                node.onerror=(err)=>{
-                    console.log(err); 
-                    res();
-                }
-                node.onload = ()=>res(); 
+    await (async () => { 
+        for (let node of document.getElementsByTagName('img')) { 
+            try {
+                await new Promise( (res,rej) =>{ 
+                    if (!node.dataset.src) { res(); }
+                    else {
+                        node.src=node.dataset.src; 
+                        node.dataset.src=''; 
+                        node.onerror = ()=> {rej()}
+                        node.onload = ()=>res(); 
+                    }
+                })
+            } catch (err) {
             }
-        }) 
-    } })();
+        }
+    })();
     //  Imgs one by one loading
 
     $('.modal').method('click', (e) => e.target.classList.remove('modal--ready'));
