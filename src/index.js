@@ -160,12 +160,12 @@ function handleTouch (e){
     this.posX = type === 'touchstart' ? current.pageX : this.posX;
     
     if ( this.posX > current.pageX ) {
-        this.PhToggleFn({ target: { classList: { value: 'right' } } });
+        this.PhToggleFn({ target: { classList: { value: 'left' } } });
         this.posX = 'moving';
         setTimeout( (obj) => obj.posX = 0, 500, this );
     }
     else if ( this.posX < current.pageX ) {
-        this.PhToggleFn({ target: { classList: { value: 'left' } } });
+        this.PhToggleFn({ target: { classList: { value: 'right' } } });
         this.posX = 'moving';
         setTimeout( (obj) => obj.posX = 0, 500, this );
     } else return;
