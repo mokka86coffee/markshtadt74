@@ -65,6 +65,11 @@ section {
     align-items: center;
     text-shadow: 1px 1px 1px rgb(122, 122, 122);
 
+    @include media(800){
+        height: 64px;
+        overflow: hidden;
+    }
+
     &__social-icons {
         display: flex;
 
@@ -141,8 +146,8 @@ section {
         align-items: center;
 
         @include media(800){
-            width: 100%;
-            order: 3;
+            width: 50%;
+            order: 1;
         }
 
         &__chip {
@@ -156,6 +161,11 @@ section {
 
             p {
                 font-weight: 400;
+
+                @include media(800){
+                    font-size: 1rem;
+                }
+
             }
 
             & img {
@@ -165,6 +175,10 @@ section {
 
             & span {
                 font-size: 1rem;
+
+                @include media(800){
+                    font-size: .9rem;
+                }
             }
         }
     } //contacts-end
@@ -177,7 +191,8 @@ section {
 
         @include media(800){
             width: 100%;
-            order: 2;
+            order: 3;
+            margin: 2rem;
             text-align: center;
         }
 
@@ -243,8 +258,8 @@ section {
         width: 22%;
 
         @include media(800){
-            width: 100%;
-            order: 1;
+            width: 50%;
+            order: 2;
             justify-content: center;
         }
 
@@ -256,6 +271,11 @@ section {
 } // header 
 
 .callback{
+
+    @include media(800) {
+        display: none;
+    }
+
     &-form, & .wpcf7-form {
         @include flexCenter;
         padding: 0;
@@ -333,6 +353,11 @@ section {
         background-color: rgba(0, 0, 0, 0.6);
     }
 
+    @include media(800) {
+        height: auto;
+        padding-bottom: 4rem;
+    }
+
     &__item {
         position: relative;
         z-index: 3;
@@ -359,12 +384,16 @@ section {
             color: #d6c089;
             text-shadow: 1px 1px 1px #4c1111;
             transition: .5s;
+
+            @include media(800) {
+                font-size: 1.2rem;
+            }
+    
         }
         @at-root &:hover p {
             transform: rotateY(10deg) rotateX(10deg);
             border-bottom: 1px dashed #a18847;
         }    
-
         & img {
             position: relative;
             z-index: 2;
@@ -376,7 +405,8 @@ section {
             transition: .4s; 
 
             @include media(800){
-                width: 80%;
+                width: 62vw;
+                height: 62vw;
             }
         } 
         @at-root &:hover img {
@@ -386,9 +416,19 @@ section {
         &--main {
             width: 28%;
             max-width: 350px;
+
+            @include media(800){
+                width: 80%;
+            }
+
             & img {
                 width: 250px;
                 height: 250px;
+
+                @include media(800){
+                    width: 62vw;
+                    height: 62vw;
+                }
             }
         }
     } 
@@ -425,6 +465,7 @@ section {
 
         @include media(800){
             width: 80%;
+            margin: 1rem 0;
         }
 
         & img {
@@ -522,10 +563,20 @@ section {
     &-logo {
         @include flexCenter;
         width: 18%;
+
+        @include media(800) {
+            width: 50%;
+            order: 2;
+        }
+
         & img {
             height: auto;
             width: 100%;
             filter: grayscale(100%);
+
+            @include media(800) {
+                width: 74%;
+            }
         }    
     }
 
@@ -533,6 +584,12 @@ section {
         @include flexCenter;
         width: 40%;
         color: #fff;
+
+        @include media(800) {
+            width: 100%;
+            order: 1;
+            flex-wrap: nowrap;
+        }
 
         &__column{
             padding: 0px 2rem;
@@ -560,6 +617,11 @@ section {
         width: 27%;
         color: #fff;
 
+        @include media(800) {
+            width: 50%;
+            order: 3;
+        }
+
         & p {
             font-family: 'Comfortaa','cursive';
         }
@@ -568,6 +630,10 @@ section {
             font-size: 2rem;
             font-weight: bold;
             color: orange;
+
+            @include media(800) {
+                font-size: 1rem;
+            }
         }
     }
 } // footer
@@ -630,6 +696,10 @@ section {
         background-image:url("/wp-content/uploads/2019/03/dark-plank-texture-300x188.jpg");
         box-shadow: 0 0 20px #000;
 
+        @include media(800) {
+            width: 90%;
+        }
+
         &__content {
             width: 100%;
             margin-bottom: 40px;
@@ -640,6 +710,10 @@ section {
                 font-family: 'Marck Script', cursive;
                 font-size: 3rem;
                 text-align: center;
+
+                @include media(800) {
+                    font-size: 2rem;
+                }
             }
         
             & p {
@@ -649,6 +723,10 @@ section {
                 text-align: center;
                 font-size: 1.3rem;
                 letter-spacing: 2px;
+
+                @include media(800) {
+                    font-size: 1rem;
+                }
             }
 
             & iframe {
@@ -812,6 +890,11 @@ section {
             background-color: #000;
             cursor: pointer;
 
+            @include media(800) {
+                bottom: 0;
+                z-index: 2;
+            }
+
             & li {
                 padding: 1rem 0;
                 height: 100%;
@@ -823,6 +906,9 @@ section {
                 &.active {
                     background-color: #fff;
                     color: #000;
+                }
+                @include media(800) {
+                    font-size: 1rem;
                 }
             }
         }
