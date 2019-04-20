@@ -716,10 +716,6 @@ section {
     opacity: 0;
     transform: scale(1.2,1.2);
 
-    &--menu {
-        // background-color: rgba(255, 249, 234, 0.361);
-    }
-
     &--ready {
         transform: translateX(-50%) translateY(-50%);
         transition: 0.6s;
@@ -1153,18 +1149,6 @@ section {
 
 
 /* Гостевая */
-#comments {
-	max-width: 1200px;
-	position: relative;
-	z-index: 3;
-	padding: 1rem 2rem;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	justify-content: center;
-	color: white;
-	background-color: rgba(0,0,0,0.8);
-}
 
 .comment-list * {
 	font-family: 'Poiret One', cursive;
@@ -1190,6 +1174,18 @@ section {
 	color: orange;
 }
 
+#comments {
+	max-width: 1200px;
+	position: relative;
+	z-index: 3;
+	padding: 1rem 2rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: center;
+	color: white;
+	background-color: rgba(0,0,0,0.8);
+}
 #comments .span {
 	display: block;
     width: 100%;
