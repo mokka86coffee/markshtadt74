@@ -1,5 +1,6 @@
 import './index.scss';
 
+//? processing
 function crossBrowserFetch (url, optionObj = { on: 'GET', body: undefined }, JSONparsing = true) {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
