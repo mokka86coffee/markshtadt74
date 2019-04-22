@@ -44,11 +44,6 @@ function createNode(tag, attr, parentNode) {
     return node;
 }
 
-async function ajaxGetData(str) {
-    const result = await crossBrowserFetch(`functions.php?${str}`);
-    return result;
-}
-
 function mapMenuObjectToSpans (obj, menuDivNode) {
     for ( let key in obj ) {
         let parentPNode = createNode('p', {}, menuDivNode);
@@ -66,23 +61,23 @@ async function showMenu(modal, e) {
     let menuDivNode = document.querySelector('.modal-menu__content');
     modal.classList.add('modal--ready');
     menuDivNode.innerHTML = '';
-    try {
+    // try {
 
-        let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
+    //     let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
     
-        // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+    //     // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
         
     
-        for (let key in menuObj) {
-            if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
-            if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
-            if (key === 'description') { document.querySelector('.modal-menu__info-text').innerText = menuObj['description']; continue; }
-            createNode('h4', {text: key}, menuDivNode);
-            mapMenuObjectToSpans(menuObj[key], menuDivNode);
-        }
-    } catch (err) {
-        document.querySelector('.modal-menu__info-title').innerText = err.toString()
-    }
+    //     for (let key in menuObj) {
+    //         if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
+    //         if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
+    //         if (key === 'description') { document.querySelector('.modal-menu__info-text').innerText = menuObj['description']; continue; }
+    //         createNode('h4', {text: key}, menuDivNode);
+    //         mapMenuObjectToSpans(menuObj[key], menuDivNode);
+    //     }
+    // } catch (err) {
+    //     document.querySelector('h1').innerText = err.msg.toString()
+    // }
 
 }
 
@@ -269,7 +264,7 @@ window.onload = async () => {
 
 } // restaurant offers photos
 
-    const hallsObj = { index: 0, slides: await ajaxGetData(`halls=${true}`), nodes: $('.modal--photos-halls .modal-photos__img').node };
+    const hallsObj = { index: 0, slides: await crossBrowserFetch(`functions.php?halls=${true}`), nodes: $('.modal--photos-halls .modal-photos__img').node };
     const hallsDiv = $('.modal-photos__slide').node[0]; 
     
     renderPhotos = renderPhotos.bind(hallsObj);
@@ -281,15 +276,14 @@ window.onload = async () => {
         } 
     })();
 
-    const menuTitles = ['main', 'banket', 'child'];
-    let menusObj = {};
-    try {
-        for (let idx=0; idx<menuTitles.length; idx+=1 ) {
-            menusObj[menuTitles[idx]] = await ajaxGetData(`bluda_id=${menuTitles[idx]}`)
-        }
-        localStorage.setItem('menusObj', JSON.stringify(menusObj));
-    } catch (err) {
-        document.querySelector('h1').innerText = err.toString()
+    const promiseArr = [
+        crossBrowserFetch(`functions.php?bluda_id=main`),
+        crossBrowserFetch(`functions.php?bluda_id=banket`),
+        crossBrowserFetch(`functions.php?bluda_id=child`),
+    ];
+    if ( !localStorage.getItem('menusObj') ) {
+        Promise.all(promiseArr)
+        .then( r => localStorage.setItem('menusObj', JSON.stringify(r)) )
     }
 };
 
