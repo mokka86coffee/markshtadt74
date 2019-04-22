@@ -66,7 +66,7 @@ async function showMenu(modal, e) {
     let menuDivNode = document.querySelector('.modal-menu__content');
     menuDivNode.innerHTML = '';
 
-    let menuObj = localStorage.getItem(path) || await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+    let menuObj = localStorage.getItem(path) ? localStorage.getItem(path) : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
     
     for (let key in menuObj) {
         if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
