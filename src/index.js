@@ -152,12 +152,12 @@ function handleTouch (e){
         if ( this.posX > current.pageX ) {
             this.PhToggleFn({ target: { classList: { value: 'left' } } });
             this.posX = 'moving';
-            setTimeout( (obj) => obj.posX = 0, 500, this );
+            setTimeout( () => obj.posX = 0, 500 );
         }
         else if ( this.posX < current.pageX ) {
             this.PhToggleFn({ target: { classList: { value: 'right' } } });
             this.posX = 'moving';
-            setTimeout( (obj) => obj.posX = 0, 500, this );
+            setTimeout( () => obj.posX = 0, 500 );
         } else return;
     } catch (err) {
         document.querySelector('h1').innerText = typeof err === 'object' ? err.message : err;
