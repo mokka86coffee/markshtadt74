@@ -78,7 +78,7 @@ async function showMenu(modal, e) {
             mapMenuObjectToSpans(menuObj[key], menuDivNode);
         }
     } catch (err) {
-        document.querySelector('h1').innerText = err.toString()
+        console.log('error in showMenu', err);
     }
 
 }
