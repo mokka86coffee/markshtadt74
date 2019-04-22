@@ -61,23 +61,25 @@ async function showMenu(modal, e) {
     let menuDivNode = document.querySelector('.modal-menu__content');
     modal.classList.add('modal--ready');
     menuDivNode.innerHTML = '';
-    // try {
+    try {
 
-    //     let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
+        let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
+        console.log(path)
+        console.log(menuObj)
     
-    //     // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+        // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
         
     
-    //     for (let key in menuObj) {
-    //         if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
-    //         if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
-    //         if (key === 'description') { document.querySelector('.modal-menu__info-text').innerText = menuObj['description']; continue; }
-    //         createNode('h4', {text: key}, menuDivNode);
-    //         mapMenuObjectToSpans(menuObj[key], menuDivNode);
-    //     }
-    // } catch (err) {
-    //     document.querySelector('h1').innerText = err.msg.toString()
-    // }
+        for (let key in menuObj) {
+            if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
+            if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
+            if (key === 'description') { document.querySelector('.modal-menu__info-text').innerText = menuObj['description']; continue; }
+            createNode('h4', {text: key}, menuDivNode);
+            mapMenuObjectToSpans(menuObj[key], menuDivNode);
+        }
+    } catch (err) {
+        document.querySelector('h1').innerText = err.toString()
+    }
 
 }
 
@@ -283,7 +285,10 @@ window.onload = async () => {
     ];
     if ( !localStorage.getItem('menusObj') ) {
         Promise.all(promiseArr)
-        .then( r => localStorage.setItem('menusObj', JSON.stringify(r)) )
+        .then( r => {
+            console.log(r);
+            localStorage.setItem('menusObj', JSON.stringify({ main: r[1], banket: r[0], child: r[2] })) 
+        })
     }
 };
 
