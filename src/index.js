@@ -139,26 +139,29 @@ function toggleSlide (slides, name, { target: { classList: { value } } }) {
 function handleTouch (e){
     try {
         if ( this.posX === 'moving') return;
-    
+        
         const { type, touches: [current] } = e;
         
         if ( type === 'touchend' ) {
             this.posX = null;
             return;
+        } else if ( type === 'touchstart' ) {
+            this.posX = current.pageX;
+            return;
         }
     
-        this.posX = type === 'touchstart' ? current.pageX : this.posX;
-        
         if ( this.posX > current.pageX ) {
             this.PhToggleFn({ target: { classList: { value: 'left' } } });
-            this.posX = 'moving';
-            setTimeout( () => obj.posX = 0, 500 );
         }
         else if ( this.posX < current.pageX ) {
             this.PhToggleFn({ target: { classList: { value: 'right' } } });
-            this.posX = 'moving';
-            setTimeout( () => obj.posX = 0, 500 );
-        } else return;
+        } 
+
+        this.posX = 'moving';
+        setTimeout( (obj) => {
+            obj.posX = 0
+        }, 500, this );
+
     } catch (err) {
         document.querySelector('h1').innerText = typeof err === 'object' ? err.message : err;
     }
