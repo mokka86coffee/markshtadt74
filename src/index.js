@@ -66,8 +66,11 @@ async function showMenu(modal, e) {
     let menuDivNode = document.querySelector('.modal-menu__content');
     menuDivNode.innerHTML = '';
 
-    let menuObj = localStorage.getItem(path) ? localStorage.getItem(path) : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+    let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
     
+    // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+    
+
     for (let key in menuObj) {
         if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
         if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
