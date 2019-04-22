@@ -281,7 +281,7 @@ window.onload = async () => {
         Promise.all(promiseArr)
         .then( r => {
             console.log(r);
-            localStorage.setItem('menusObj', JSON.stringify({ main: r[1], banket: r[0], child: r[2] })) 
+            localStorage.setItem('menusObj', JSON.stringify({ main: r[0], banket: r[1], child: r[2] })) 
         })
     }
     
