@@ -81,9 +81,6 @@ function showPhotos(modal, e) {
 
 function renderPhotos(e, slidesContainer) {
     slidesContainer.innerHTML = '';
-    
-    console.log('renderPhotos')
-    console.log(this)
 
     const controls = $('.modal-photos__tabs li').node;
     controls.forEach(el=>el.className = '');
@@ -119,21 +116,20 @@ function toggleSlide (slides, name, { target: { classList: { value } } }) {
     
     let 
         slideToRight = ~value.indexOf('right'),
-        slidesQuanity = slides.length,
         currentIndex = this.index
     ; 
 
     if ( name === 'halls' ) {
-        currentIndex = chngIndex(slideToRight, slidesQuanity, currentIndex);
-        let prevSlide = chngIndex(slideToRight ? !slideToRight : slideToRight, slidesQuanity, currentIndex),
-            nextSlide = chngIndex(slideToRight ? slideToRight : !slideToRight, slidesQuanity, currentIndex);
+        currentIndex = chngIndex(slideToRight, slides.length, currentIndex);
+        let prevSlide = chngIndex(slideToRight ? !slideToRight : slideToRight, slides.length, currentIndex),
+            nextSlide = chngIndex(slideToRight ? slideToRight : !slideToRight, slides.length, currentIndex);
         
         slides[currentIndex].className = `modal-photos__img modal-photos__img--active`;
         slides[prevSlide].className = `modal-photos__img modal-photos__img--prev`;
         slides[nextSlide].className = `modal-photos__img modal-photos__img--next`;
     } else {
         slides[currentIndex].className = `modal-photos__img`;
-        currentIndex = chngIndex(slideToRight, slidesQuanity, currentIndex);
+        currentIndex = chngIndex(slideToRight, slides.length, currentIndex);
         slides[currentIndex].className = `modal-photos__img modal-photos__img--active`;
     }
 
@@ -223,6 +219,7 @@ window.onload = async () => {
         $('.modal--photos-news .modal-photos__arrow').on('click', newsPhToggleFn);
         $('.modal--photos-news').on(['touchstart','touchmove','touchend'], newsPhTouchFn);
         // toggle slides restaurant news photos
+
     } // restaurant news photos
         
 
