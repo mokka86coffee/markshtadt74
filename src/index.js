@@ -143,7 +143,7 @@ function handleTouch (e){
         const { type, touches: [current] } = e;
         
         if ( type === 'touchend' ) {
-            this.posX = null;
+            this.posX = 0;
             return;
         } else if ( type === 'touchstart' ) {
             this.posX = current.pageX;
