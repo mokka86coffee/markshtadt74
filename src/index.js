@@ -64,22 +64,26 @@ async function showMenu(modal, e) {
     let path = e.path[0].dataset.menu ? e.path[0].dataset.menu : e.path[1].dataset.menu;
     
     let menuDivNode = document.querySelector('.modal-menu__content');
+    modal.classList.add('modal--ready');
     menuDivNode.innerHTML = '';
+    try {
 
-    let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
+        let menuObj = JSON.parse( localStorage.getItem('menusObj') )[path];
     
-    // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+        // ? localStorage.getItem('menusObj')[path] : await ajaxGetData(`bluda_id=${path}`); // main | banket | child
+        
     
-
-    for (let key in menuObj) {
-        if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
-        if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
-        if (key === 'description') { document.querySelector('.modal-menu__info-text').innerText = menuObj['description']; continue; }
-        createNode('h4', {text: key}, menuDivNode);
-        mapMenuObjectToSpans(menuObj[key], menuDivNode);
+        for (let key in menuObj) {
+            if (key === 'title') { document.querySelector('.modal-menu__info-title').innerText = menuObj['title']; continue; }
+            if (key === 'img') { document.querySelector('.modal-menu__img').setAttribute('src',menuObj['img']); continue; }
+            if (key === 'description') { document.querySelector('.modal-menu__info-text').innerText = menuObj['description']; continue; }
+            createNode('h4', {text: key}, menuDivNode);
+            mapMenuObjectToSpans(menuObj[key], menuDivNode);
+        }
+    } catch (err) {
+        document.querySelector('.modal-menu__info-title').innerText = err.toString()
     }
 
-    modal.classList.add('modal--ready');
 }
 
 function showPhotos(modal, e) {
@@ -279,10 +283,14 @@ window.onload = async () => {
 
     const menuTitles = ['main', 'banket', 'child'];
     let menusObj = {};
-    for (let idx=0; idx<menuTitles.length; idx+=1 ) {
-        menusObj[menuTitles[idx]] = await ajaxGetData(`bluda_id=${menuTitles[idx]}`)
+    try {
+        for (let idx=0; idx<menuTitles.length; idx+=1 ) {
+            menusObj[menuTitles[idx]] = await ajaxGetData(`bluda_id=${menuTitles[idx]}`)
+        }
+        localStorage.setItem('menusObj', JSON.stringify(menusObj));
+    } catch (err) {
+        document.querySelector('h1').innerText = err.toString()
     }
-    localStorage.setItem('menusObj', JSON.stringify(menusObj));
 };
 
 var rublSVG = `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 330 330" style="width: 10px;" xml:space="preserve"> <path id="XMLID_449_" d="M180,170c46.869,0,85-38.131,85-85S226.869,0,180,0c-0.183,0-0.365,0.003-0.546,0.01h-69.434 c-0.007,0-0.013-0.001-0.019-0.001c-8.284,0-15,6.716-15,15v0.001V155v45H80c-8.284,0-15,6.716-15,15s6.716,15,15,15h15v85 c0,8.284,6.716,15,15,15s15-6.716,15-15v-85h55c8.284,0,15-6.716,15-15s-6.716-15-15-15h-55v-30H180z M180,30.01 c0.162,0,0.324-0.003,0.484-0.008C210.59,30.262,235,54.834,235,85c0,30.327-24.673,55-55,55h-55V30.01H180z"/> </svg>`;
