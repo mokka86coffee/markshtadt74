@@ -106,7 +106,7 @@ return toRight
         ? index +1  
         : 0
     : index -1 < 0
-        ? quanity-1
+        ? quanity -1
         : index -1;
 }
 
@@ -137,28 +137,31 @@ function toggleSlide (slides, name, { target: { classList: { value } } }) {
 }
 
 function handleTouch (e){
-
-    if ( this.posX === 'moving') return;
-
-    const { type, touches: [current] } = e;
+    try {
+        if ( this.posX === 'moving') return;
     
-    if ( type === 'touchend' ) {
-        this.posX = null;
-        return;
-    }
-
-    this.posX = type === 'touchstart' ? current.pageX : this.posX;
+        const { type, touches: [current] } = e;
+        
+        if ( type === 'touchend' ) {
+            this.posX = null;
+            return;
+        }
     
-    if ( this.posX > current.pageX ) {
-        this.PhToggleFn({ target: { classList: { value: 'left' } } });
-        this.posX = 'moving';
-        setTimeout( (obj) => obj.posX = 0, 500, this );
+        this.posX = type === 'touchstart' ? current.pageX : this.posX;
+        
+        if ( this.posX > current.pageX ) {
+            this.PhToggleFn({ target: { classList: { value: 'left' } } });
+            this.posX = 'moving';
+            setTimeout( (obj) => obj.posX = 0, 500, this );
+        }
+        else if ( this.posX < current.pageX ) {
+            this.PhToggleFn({ target: { classList: { value: 'right' } } });
+            this.posX = 'moving';
+            setTimeout( (obj) => obj.posX = 0, 500, this );
+        } else return;
+    } catch (err) {
+        document.querySelector('h1').innerText = typeof err === 'object' ? err.message : err;
     }
-    else if ( this.posX < current.pageX ) {
-        this.PhToggleFn({ target: { classList: { value: 'right' } } });
-        this.posX = 'moving';
-        setTimeout( (obj) => obj.posX = 0, 500, this );
-    } else return;
     
 }
 
