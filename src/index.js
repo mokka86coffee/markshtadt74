@@ -250,7 +250,8 @@ window.onload = async () => {
     const hallsObj = { 
         index: 0, 
         slides: await crossBrowserFetch(`functions.php?halls=${true}`), 
-        nodes: $('.modal--photos-halls .modal-photos__img').node
+        nodes: $('.modal--photos-halls .modal-photos__img').node,
+        posX: 0
     };
     
     const hallsPhotosContainer = $('.modal-photos__slide').node[0]; 
